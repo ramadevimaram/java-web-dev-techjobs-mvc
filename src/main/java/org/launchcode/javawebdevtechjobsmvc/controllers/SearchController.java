@@ -20,6 +20,7 @@ public class SearchController extends TechJobsController {
 
     @RequestMapping(value = "")
     public String search(Model model) {
+        model.addAttribute("previousSearchType","all");
         model.addAttribute("columns", columnChoices);
         return "search";
     }
@@ -28,17 +29,18 @@ public class SearchController extends TechJobsController {
     @RequestMapping(value = "results")
     public String displaySearchResults(Model model,@RequestParam String searchType,@RequestParam String searchTerm){
         ArrayList<Job> jobs;
-        if (searchType.toLowerCase().equals("all")){
+        if (searchTerm.length()<=0){
             jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
         } else {
             jobs = JobData.findByColumnAndValue(searchType, searchTerm);
-            model.addAttribute("title", "Jobs with " + columnChoices.get(searchType) + ": " + searchTerm);
+//            model.addAttribute("title", "Jobs with " + columnChoices.get(searchType) + ": " + searchTerm);
             //model.addAttribute("employers", JobData.getAllEmployers());
         }
         model.addAttribute("jobs", jobs);
         model.addAttribute("columns", columnChoices);
-        //model.addAttribute("employers", JobData.getAllEmployers());
+        model.addAttribute("title", "Jobs with " + columnChoices.get(searchType) + ": " + searchTerm);
+        model.addAttribute("previousSearchType", searchType);
         return "search";
     }
 }
