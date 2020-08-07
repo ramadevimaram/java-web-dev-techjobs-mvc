@@ -20,11 +20,31 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a th:href="@{/search}">Search</a></li>
-                    <li><a th:href="@{/list}">List</a></li>
+<!--                    <li><a th:href="@{/search}">Search</a></li>-->
+<!--                    <li><a th:href="@{/list}">List</a></li>-->
+                    <li th:each="action: ${actions}">
+                        <a th:href="@{'/' + ${action.key}}" th:text="${action.value}"></a>
+                    </li>
                 </ul>
             </div>
         </div>
+    </div>
+    <div th:fragment="jobResults">
+
+        <table class="job-listing">
+            <tr th:each="job : ${jobs}">
+                <td >
+                    <p th th:text = "'ID: '+${job.id}"></p>
+                    <p th th:text = "'Name: '+${job.name}"></p>
+                    <p th th:text = "'Employer: '+${job.employer}">
+<!--                    <a th:href="@{/search/results(searchType='employers',searchTerm='employers')}"><span th:text ="'Employer: '+${job.employer}"></span></a></li>-->
+                    </p>
+                    <p th th:text = "'Location: '+${job.location}"></p>
+                    <p th th:text = "'Position Type: '+${job.positionType}"></p>
+                    <p th th:text = "'Skill: '+${job.coreCompetency}"></p>
+                </td>
+            </tr>
+        </table>
     </div>
 
 </body>
